@@ -1,0 +1,4 @@
+﻿Строка подключения: "server=localhost;user=remote;password=123;database=university"
+Провайдер: MySQL 8.0.32
+
+SQL-скрипт "DbInsert" добавляет демонстрационные записи во все таблицы, кроме расписания
