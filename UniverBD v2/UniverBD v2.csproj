@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>UniverBD_v2</RootNamespace>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <DocumentationFile>D:\repos\UniverBD v2\UniverBD v2\APIconfigure.xml</DocumentationFile>
+    <DocumentationFile>APIconfigure.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
