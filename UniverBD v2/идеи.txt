@@ -1,0 +1,88 @@
+﻿if(output.TeacherId != null)
+{
+	Teacher? tch = await db.Teachers.FirstOrDefaultAsync(tch => tch.TeacherId == output.TeacherId);
+	output.Teacher = tch;
+	output.Teacher.Studentgroups.Remove(output);
+}
+
+Преобразовать
+
+if(output.TeacherId != null)
+{
+	output.Teacher = await db.Teachers.FirstOrDefaultAsync(obj => obj.TeacherId == output.TeacherId);
+	output.Teacher.Studentgroups.Remove(output);
+}
+return output;
+
+шаблон
+
+void OneInOneToMany<model, FKey, NV, innerModel>(model output, 
+												FKey foreignKey, 
+												NV navigateProp, 
+												ICollection<model> set, //нужно сразу передавать ссылку на объект, который вычисляется в этом же методе
+												DbSet<innerModel> ContextSet) =>
+if(output.<foreignKey> != null)//убрать
+{
+	output.<navigateProp> = await <ContextSet>.FirstOrDefaultAsync(obj => obj.Id == <foreignKey>);
+	output.<navigateProp>.<set>.Remove(output);
+}
+//return output;
+
+пост-обработка для синтаксиса
+public static void OneInOneToMany<model, FKey, NV, innerModel>(model output, FKey foreignKey, NV navigateProperty, ICollection<model> set, DbSet<innerModel> ContextSet)                                     
+        {
+            if(foreignKey != null)
+            {
+                navigateProperty = ContextSet.FirstOrDefaultAsync(obj => obj.Id == foreignKey);
+                set.Remove(output);
+            }
+        }
+
+пожалуй, такие сложности не нужны, если использовать перегрузку
+...Но тогда теряется смысл, пожалуй... Или нет?
+
+v2, через перегрузки
+void OneInOneToMany(Studentgroup output)
+{
+	if(output.TeacherId != null)
+	{
+		output.Teacher = await db.Teachers.FirstOrDefaultAsync(obj => obj.TeacherId == output.TeacherId);
+		output.Teacher.Studentgroups.Remove(output);
+	}
+}
+void OneInOneToMany(Student output)
+{
+	if(output.GroupId != null)
+	{
+		output.Group = await db.Teachers.FirstOrDefaultAsync(obj => obj.GroupId == output.GroupId);
+		output.Group.Students.Remove(output);
+	}
+}
+void OneInOneToMany(WeekSchedule output)
+{
+	if(output.GroupId != null)
+	{
+		output.Group = await db.Studentgroups.FirstOrDefaultAsync(obj => obj.GroupId == output.GroupId);
+		output.Group.WeekSchedules.Remove(output);
+	}
+	if(output.DisciplineId != null)
+	{
+		output.Discipline = await db.Disciplines.FirstOrDefaultAsync(obj => obj.DisciplineId == output.DisciplineId);
+		output.Discipline.WeekSchedules.Remove(output);
+	}
+	if(output.TeacherId != null)
+	{
+		output.Teacher = await db.Teachers.FirstOrDefaultAsync(obj => obj.TeacherId == output.TeacherId);
+		output.Teacher.WeekSchedules.Remove(output);
+	}
+}
+================
+//не работает. Удалить, но потом
+        //public static void OneInOneToMany<model, FKey, NV, innerModel>(model output, FKey foreignKey, NV navigateProperty, ICollection<model> set, DbSet<innerModel> ContextSet)                                     
+        //{
+        //    if(foreignKey != null)
+        //    {
+        //        navigateProperty = ContextSet.FirstOrDefaultAsync(obj => obj.Id == foreignKey);
+        //        set.Remove(output);
+        //    }
+        //}

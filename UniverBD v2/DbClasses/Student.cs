@@ -11,6 +11,9 @@ public partial class Student
 
     public string? GroupId { get; set; }
 
+    /// <summary>
+    /// при отправке put и post-запроса для свойства BirthDate достаточно указывать строку в формате "yyyy-mm-dd"
+    /// </summary>
     public DateOnly? BirthDate { get; set; }
 
     public virtual Studentgroup? Group { get; set; }
