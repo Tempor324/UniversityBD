@@ -168,6 +168,20 @@ public partial class UniversityContext : DbContext
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("week_shedule_FK_2");
         });
+        
+    ////test. Warning: may destroy BD
+    //    modelBuilder.Entity<Teacher>().HasData(
+    //        new Teacher { TeacherId = 1, TeacherName = "Тамара Петрова Евгеньевна" },
+    //        new Teacher { TeacherId = 2, TeacherName = "Евгений Петров Евгеньевич" }
+    //        );
+
+    //    modelBuilder.Entity<Discipline>().HasData(
+    //        new Discipline { DisciplineId = "1.1", DisciplineName = "Алгебра" },
+    //        new Discipline { DisciplineId = "1.2", DisciplineName = "Геометрия" },
+    //        new Discipline { DisciplineId = "2.1", DisciplineName = "Русский язык" }
+    //        );
+
+        
 
         OnModelCreatingPartial(modelBuilder);
     }
